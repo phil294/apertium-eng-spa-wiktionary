@@ -2,7 +2,7 @@ node_modules
 package.json
 yarn.lock
 run.deno.js
-dict.cc*
+dict*
 *.ding
 .vscode/.history
 apertium-eng-spa*
