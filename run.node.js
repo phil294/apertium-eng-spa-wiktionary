@@ -46,8 +46,10 @@ const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 				],
 				":@": { "@_lm": word_spa },
 			})
+			let eng_existed = true
 			// the eng one does often already exist
 			if(!eng_words_saved.has(word_eng)) {
+				eng_existed = false
 				// <e lm="word_eng"><i>word_eng</i><par n="eng_par"/></e>
 				eng[1].dictionary[3].section.push({
 					e: [
@@ -58,7 +60,7 @@ const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 				})
 				eng_words_saved.add(word_eng)
 			}
-			// always necessary to add, but add RL flag to make sure we're not overwriting an eng meaning
+			// always necessary to add
 			// <e r="RL"><p><l>word_eng<s n="eng_s"/></l><r>word_spa<s n="spa_s"/><s n="spa_s"/></r></p></e>
 			eng_spa[1].dictionary[3].section.push({
 				e: [
@@ -75,7 +77,8 @@ const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 						] },
 					] },
 				],
-				":@": { "@_r": "RL" },
+				// RL to not overwrite an existing eng meaning as our word is very likely less correct/common
+				":@": eng_existed ? { "@_r": "RL" } : {},
 			})
 		}
 
